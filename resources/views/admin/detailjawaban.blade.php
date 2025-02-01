@@ -23,5 +23,16 @@
             @endforeach
         </tbody>
     </table>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3>Total Skor DISC</h3>
+            <ul>
+                <li><strong>D (Dominance):</strong> {{ $totalScore['D'] }}</li>
+                <li><strong>I (Influence):</strong> {{ $totalScore['I'] }}</li>
+                <li><strong>S (Steadiness):</strong> {{ $totalScore['S'] }}</li>
+                <li><strong>C (Conscientiousness):</strong> {{ $totalScore['C'] }}</li>
+            </ul>
+        </div>
+    </div>
 </div>
 @endsection

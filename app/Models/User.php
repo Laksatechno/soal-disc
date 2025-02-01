@@ -19,7 +19,7 @@ class User extends Authenticatable
         return $this->hasMany(UserAnswer::class);
     }
 
-    public function answers()
+    public function answer()
     {
         return $this->hasMany(Answer::class);
     }

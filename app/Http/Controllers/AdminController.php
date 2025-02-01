@@ -10,6 +10,34 @@ use App\Models\UserAnswer;
 
 class AdminController extends Controller
 {
+
+    public function showLoginForm()
+    {
+        return view('admin.login');
+    }
+
+    // Proses login
+    public function login(Request $request)
+    {
+        $validPin = '123456'; // PIN yang valid
+
+        $pin = $request->input('pin');
+
+        if ($pin === $validPin) {
+            // Jika PIN valid, kembalikan response JSON dengan status sukses
+            return response()->json([
+                'status' => 'success',
+                'redirect' => route('admin.index')
+            ], 200);
+        } else {
+            // Jika PIN tidak valid, kembalikan response JSON dengan status error
+            return response()->json([
+                'status' => 'error',
+                'message' => 'PIN salah'
+            ], 401);
+        }
+    }
+
     //
     public function indexadmin()
     {
@@ -88,8 +116,8 @@ class AdminController extends Controller
     }
 
     public function riwayatjawaban() {
-        $userAnswers = UserAnswer::with('answer')->get();
-
+        $userAnswers = User::with('userAnswers')->get();
+        // dd($userAnswers);
         return view('admin.riwayatjawaban', compact('userAnswers'));
     }
 
@@ -98,12 +126,25 @@ class AdminController extends Controller
         $userAnswers = UserAnswer::where('user_id', $id)
                                  ->with(['question', 'answer'])
                                  ->get();
+
+        // Hitung total skor berdasarkan disc_type dari jawaban yang dipilih
+        $totalScore = [
+            'D' => 0,
+            'I' => 0,
+            'S' => 0,
+            'C' => 0,
+        ];
+    
+        foreach ($userAnswers as $userAnswer) {
+            $discType = $userAnswer->answer->disc_type;
+            $totalScore[$discType]++;
+        }
     
         // Jika tidak ada jawaban, kembalikan error
         if ($userAnswers->isEmpty()) {
             return redirect()->back()->with('error', 'Tidak ada jawaban yang ditemukan.');
         }
     
-        return view('admin.detailjawaban', compact('userAnswers'));
+        return view('admin.detailjawaban', compact('userAnswers', 'totalScore'));
     }
 }

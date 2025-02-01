@@ -17,7 +17,7 @@
             @foreach($userAnswers as $index => $userAnswer)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $userAnswer->user->name }}</td>
+                <td>{{ $userAnswer->name }}</td>
                 <td>{{ $userAnswer->created_at->format('Y-m-d H:i:s') }}</td>
                 <td>
                     <a href="{{ route('admin.detailjawaban', $userAnswer->id) }}" class="btn btn-info">Detail</a>
