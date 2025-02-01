@@ -3,7 +3,8 @@
 @section('content')
 <div class="container">
     <h2>Daftar Soal</h2>
-    <a href="{{ route('master.create') }}" class="btn btn-primary">Tambah Soal</a>
+    <a href="{{ route('admin.create') }}" class="btn btn-primary">Tambah Soal</a>
+    <a href="{{ route('admin.riwayatjawaban')}}" class="btn btn-succes"> Riwayat Jawaban</a>
     
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -26,13 +27,13 @@
                 <td>
                     <ul>
                         @foreach($question->answers as $answer)
-                            <li>{{ $answer->answer_text }} (Skor: {{ $answer->score }})</li>
+                            <li>{{ $answer->answer_text }} (Tipe DISC: {{ $answer->disc_type }})</li>
                         @endforeach
                     </ul>
                 </td>
                 <td>
-                    <a href="{{ route('master.edit', $question->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('master.destroy', $question->id) }}" method="POST" class="d-inline">
+                    <a href="{{ route('admin.edit', $question->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('admin.destroy', $question->id) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus soal ini?')">Hapus</button>
                     </form>

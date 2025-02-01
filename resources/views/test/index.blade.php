@@ -1,5 +1,3 @@
-<!-- resources/views/test/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('title', 'DISC Test Andara Medical')
@@ -36,11 +34,11 @@
                 <div class="form-check">
                     @foreach($question->answers as $answer)
                     <label class="form-check-label">
-                        <input type="radio" name="answers[{{ $question->id }}]" value="{{ $answer->answer_text }}"
+                        <input type="radio" name="answers[{{ $question->id }}]" value="{{ $answer->id }}"
                             class="form-check-input"
                             data-question-id="{{ $question->id }}"
-                            data-answer="{{ $answer->answer_text }}"
-                            {{ (isset($answers[$question->id]) && $answers[$question->id] == $answer->answer_text) ? 'checked' : '' }}>
+                            data-answer-id="{{ $answer->id }}"
+                            {{ (isset($answers[$question->id]) && $answers[$question->id] == $answer->id) ? 'checked' : '' }}>
                         {{ $answer->answer_text }}
                     </label><br>
                     @endforeach
@@ -48,16 +46,6 @@
             </div>
         </div>
         @endforeach
-
-        <!-- Pagination for next and previous -->
-        {{-- <div class="d-flex justify-content-end mt-3">
-            <nav aria-label="Pagination">
-                <ul class="pagination pagination-sm">
-                    {{ $questions->links() }}
-                </ul>
-            </nav>
-        </div> --}}
-        
 
         <button type="submit" class="btn btn-primary btn-block">Kirim Jawaban</button>
     </form>
@@ -72,7 +60,7 @@
 
         // Collect all selected answers
         document.querySelectorAll('input[type="radio"]:checked').forEach((radio) => {
-            answers[radio.dataset.questionId] = radio.dataset.answer;
+            answers[radio.dataset.questionId] = radio.dataset.answerId;
         });
 
         // Save data into sessionStorage
@@ -97,7 +85,7 @@
 
         // Set checked answers based on stored answers
         document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-            if (answers[radio.dataset.questionId] === radio.dataset.answer) {
+            if (answers[radio.dataset.questionId] === radio.dataset.answerId) {
                 radio.checked = true;
             }
         });

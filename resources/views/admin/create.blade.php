@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Tambah Soal</h2>
 
-    <form action="{{ route('master.store') }}" method="POST">
+    <form action="{{ route('admin.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="question_text" class="form-label">Soal</label>
@@ -12,10 +12,15 @@
         </div>
 
         <div id="answer-container">
-            <label>Jawaban & Skor:</label>
+            <label>Jawaban & Tipe DISC:</label>
             <div class="mb-2">
-                <input type="text" name="answers[]" class="form-control d-inline w-50" required>
-                <input type="number" name="scores[]" class="form-control d-inline w-25" required>
+                <input type="text" name="answers[]" class="form-control d-inline w-50" placeholder="Jawaban" required>
+                <select name="disc_type[]" class="form-control d-inline w-25" required>
+                    <option value="D">D (Dominance)</option>
+                    <option value="I">I (Influence)</option>
+                    <option value="S">S (Steadiness)</option>
+                    <option value="C">C (Conscientiousness)</option>
+                </select>
             </div>
         </div>
         
@@ -26,11 +31,15 @@
 
 <script>
     function addAnswer() {
-        let index = document.querySelectorAll('#answer-container .mb-2').length;
         let newAnswer = `
             <div class="mb-2">
-                <input type="text" name="answers[]" class="form-control d-inline w-50" required>
-                <input type="number" name="scores[]" class="form-control d-inline w-25" required>
+                <input type="text" name="answers[]" class="form-control d-inline w-50" placeholder="Jawaban" required>
+                <select name="disc_type[]" class="form-control d-inline w-25" required>
+                    <option value="D">D (Dominance)</option>
+                    <option value="I">I (Influence)</option>
+                    <option value="S">S (Steadiness)</option>
+                    <option value="C">C (Conscientiousness)</option>
+                </select>
             </div>
         `;
         document.getElementById('answer-container').insertAdjacentHTML('beforeend', newAnswer);

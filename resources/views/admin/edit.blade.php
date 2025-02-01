@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Edit Soal</h2>
 
-    <form action="{{ route('master.update', $question->id) }}" method="POST">
+    <form action="{{ route('admin.update', $question->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -14,11 +14,16 @@
         </div>
 
         <div id="answer-container">
-            <label>Jawaban & Skor:</label>
+            <label>Jawaban & Tipe DISC:</label>
             @foreach($question->answers as $answer)
                 <div class="mb-2 d-flex align-items-center">
                     <input type="text" name="answers[]" class="form-control w-50 me-2" value="{{ $answer->answer_text }}" required>
-                    <input type="number" name="scores[]" class="form-control w-25 me-2" value="{{ $answer->score }}" required>
+                    <select name="disc_type[]" class="form-control w-25 me-2" required>
+                        <option value="D" {{ $answer->disc_type == 'D' ? 'selected' : '' }}>D (Dominance)</option>
+                        <option value="I" {{ $answer->disc_type == 'I' ? 'selected' : '' }}>I (Influence)</option>
+                        <option value="S" {{ $answer->disc_type == 'S' ? 'selected' : '' }}>S (Steadiness)</option>
+                        <option value="C" {{ $answer->disc_type == 'C' ? 'selected' : '' }}>C (Conscientiousness)</option>
+                    </select>
                     <button type="button" class="btn btn-danger btn-sm remove-answer">Hapus</button>
                 </div>
             @endforeach
@@ -28,7 +33,7 @@
         <br><br>
 
         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-        <a href="{{ route('master.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('admin.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 
@@ -37,7 +42,12 @@
         let newAnswer = `
             <div class="mb-2 d-flex align-items-center">
                 <input type="text" name="answers[]" class="form-control w-50 me-2" required>
-                <input type="number" name="scores[]" class="form-control w-25 me-2" required>
+                <select name="disc_type[]" class="form-control w-25 me-2" required>
+                    <option value="D">D (Dominance)</option>
+                    <option value="I">I (Influence)</option>
+                    <option value="S">S (Steadiness)</option>
+                    <option value="C">C (Conscientiousness)</option>
+                </select>
                 <button type="button" class="btn btn-danger btn-sm remove-answer">Hapus</button>
             </div>
         `;

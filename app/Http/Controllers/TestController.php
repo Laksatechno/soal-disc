@@ -22,37 +22,54 @@ class TestController extends Controller
     
         return view('test.index', compact('questions', 'email', 'name', 'answers'));
     }
-    
 
     public function store(Request $request)
     {
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'answers' => 'required|array', // Pastikan answers adalah array
+            'answers.*' => 'required|exists:answers,id', // Pastikan setiap answer_id valid
+        ]);
+
+        // Buat user baru
         $user = User::create([
             'email' => $request->email,
             'name' => $request->name
         ]);
 
-        foreach ($request->answers as $question_id => $answer_text) {
-            $correct_answer = Answer::where('question_id', $question_id)
-                                     ->where('answer_text', $answer_text)
-                                     ->first();
-
-            $score = $correct_answer ? $correct_answer->score : 0;
-
+        // Simpan jawaban pengguna
+        foreach ($request->answers as $question_id => $answer_id) {
             UserAnswer::create([
                 'user_id' => $user->id,
                 'question_id' => $question_id,
-                'answer_text' => $answer_text,
-                'score' => $score
+                'answer_id' => $answer_id, // Simpan answer_id
             ]);
         }
 
+        // Redirect ke halaman hasil dengan menyertakan ID user
         return redirect()->route('test.result', ['user' => $user->id]);
     }
 
     public function result(User $user)
     {
-        $userAnswers = $user->userAnswers()->with('question')->get();
-        $totalScore = $userAnswers->sum('score');
+        // Ambil jawaban pengguna beserta relasi question dan answer
+        $userAnswers = $user->userAnswers()->with(['question', 'answer'])->get();
+
+        // Hitung total skor berdasarkan disc_type dari jawaban yang dipilih
+        $totalScore = [
+            'D' => 0,
+            'I' => 0,
+            'S' => 0,
+            'C' => 0,
+        ];
+
+        foreach ($userAnswers as $userAnswer) {
+            $discType = $userAnswer->answer->disc_type;
+            $totalScore[$discType]++;
+        }
+
         return view('test.result', compact('userAnswers', 'totalScore'));
     }
 }
