@@ -22,22 +22,28 @@ class AdminController extends Controller
 
     public function simpansoaladmin(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'question_text' => 'required|string|max:255',
-            'answers.*' => 'required|string|max:255',
-            'scores.*' => 'required|integer|min:0'
+            'question_text' => 'required|string|max:255', // Validasi untuk pertanyaan
+            'answers.*' => 'required|string|max:255',     // Validasi untuk setiap jawaban
+            'disc_type.*' => 'required|in:D,I,S,C'        // Validasi untuk tipe DISC (hanya D, I, S, atau C)
         ]);
-
-        $question = Question::create(['question_text' => $request->question_text]);
-
+    
+        // Simpan pertanyaan ke database
+        $question = Question::create([
+            'question_text' => $request->question_text
+        ]);
+    
+        // Simpan jawaban ke database
         foreach ($request->answers as $key => $answer_text) {
             Answer::create([
-                'question_id' => $question->id,
-                'answer_text' => $answer_text,
-                'score' => $request->scores[$key]
+                'question_id' => $question->id,       // ID pertanyaan yang terkait
+                'answer_text' => $answer_text,        // Teks jawaban
+                'disc_type' => $request->disc_type[$key] // Tipe DISC dari dropdown
             ]);
         }
-
+    
+        // Redirect ke halaman admin dengan pesan sukses
         return redirect()->route('admin.index')->with('success', 'Soal berhasil ditambahkan!');
     }
 
@@ -52,7 +58,7 @@ class AdminController extends Controller
         $request->validate([
             'question_text' => 'required|string|max:255',
             'answers.*' => 'required|string|max:255',
-            'scores.*' => 'required|integer|min:0'
+            'disc_type.*' => 'required|in:D,I,S,C'
         ]);
 
         $question = Question::findOrFail($id);
@@ -64,7 +70,7 @@ class AdminController extends Controller
             Answer::create([
                 'question_id' => $question->id,
                 'answer_text' => $answer_text,
-                'score' => $request->scores[$key]
+                'disc_type' => $request->disc_type[$key]
             ]);
         }
 
