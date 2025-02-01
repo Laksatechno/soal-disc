@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\User;
+use App\Models\UserAnswer;
 
 class AdminController extends Controller
 {
@@ -83,5 +85,25 @@ class AdminController extends Controller
         $question->delete();
 
         return redirect()->route('admin.index')->with('success', 'Soal berhasil dihapus!');
+    }
+
+    public function riwayatjawaban() {
+        $userAnswers = UserAnswer::with('answer')->get();
+
+        return view('admin.riwayatjawaban', compact('userAnswers'));
+    }
+
+    public function detailjawaban($id) {
+        // Ambil semua jawaban pengguna berdasarkan user_id
+        $userAnswers = UserAnswer::where('user_id', $id)
+                                 ->with(['question', 'answer'])
+                                 ->get();
+    
+        // Jika tidak ada jawaban, kembalikan error
+        if ($userAnswers->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada jawaban yang ditemukan.');
+        }
+    
+        return view('admin.detailjawaban', compact('userAnswers'));
     }
 }

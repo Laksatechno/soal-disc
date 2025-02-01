@@ -25,3 +25,5 @@ Route::post('admin', [AdminController::class, 'simpansoaladmin'])->name('admin.s
 Route::get('admin/{question}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 Route::put('admin/{question}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('admin/{question}', [AdminController::class, 'destroy'])->name('admin.destroy');
+Route::get('admin/riwayatjawaban' , [AdminController::class, 'riwayatjawaban'])->name('admin.riwayatjawaban');
+Route::get('admin/detail/{id}', [AdminController::class, 'detailjawaban'])->name('admin.detailjawaban');

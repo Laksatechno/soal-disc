@@ -4,6 +4,7 @@
 <div class="container">
     <h2>Daftar Soal</h2>
     <a href="{{ route('admin.create') }}" class="btn btn-primary">Tambah Soal</a>
+    <a href="{{ route('admin.riwayatjawaban')}}" class="btn btn-succes"> Riwayat Jawaban</a>
     
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
