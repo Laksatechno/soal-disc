@@ -23,7 +23,6 @@
             @endforeach
         </tbody>
     </table>
-
     <div class="card mt-4">
         <div class="card-body">
             <h3>Total Skor DISC</h3>

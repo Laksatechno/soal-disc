@@ -4,7 +4,11 @@
 <div class="container">
     <h2>Daftar Soal</h2>
     <a href="{{ route('admin.create') }}" class="btn btn-primary">Tambah Soal</a>
-    <a href="{{ route('admin.riwayatjawaban')}}" class="btn btn-succes"> Riwayat Jawaban</a>
+    <a href="{{ route('admin.riwayatjawaban')}}" class="btn btn-success"> Riwayat Jawaban</a>
+    <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
     
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -43,4 +47,24 @@
         </tbody>
     </table>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="pinModal" tabindex="-1" aria-labelledby="pinModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pinModalLabel">Masukkan PIN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="password" id="pinInput" class="form-control" placeholder="Masukkan PIN">
+                <div id="pinError" class="text-danger mt-2" style="display: none;">PIN salah!</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary" id="submitPin">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+
