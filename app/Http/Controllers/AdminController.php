@@ -117,7 +117,6 @@ class AdminController extends Controller
 
     public function riwayatjawaban() {
         $userAnswers = User::with('userAnswers')->get();
-        // dd($userAnswers);
         return view('admin.riwayatjawaban', compact('userAnswers'));
     }
 
