@@ -2,7 +2,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Test Soal')
+@section('title', 'DISC Test Andara Medical')
 
 @section('content')
 <div class="container">
