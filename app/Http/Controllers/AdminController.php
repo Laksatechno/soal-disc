@@ -10,34 +10,6 @@ use App\Models\UserAnswer;
 
 class AdminController extends Controller
 {
-
-    public function showLoginForm()
-    {
-        return view('admin.login');
-    }
-
-    // Proses login
-    public function login(Request $request)
-    {
-        $validPin = '123456'; // PIN yang valid
-
-        $pin = $request->input('pin');
-
-        if ($pin === $validPin) {
-            // Jika PIN valid, kembalikan response JSON dengan status sukses
-            return response()->json([
-                'status' => 'success',
-                'redirect' => route('admin.index')
-            ], 200);
-        } else {
-            // Jika PIN tidak valid, kembalikan response JSON dengan status error
-            return response()->json([
-                'status' => 'error',
-                'message' => 'PIN salah'
-            ], 401);
-        }
-    }
-
     //
     public function indexadmin()
     {
