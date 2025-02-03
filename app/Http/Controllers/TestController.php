@@ -13,7 +13,7 @@ class TestController extends Controller
     public function index(Request $request)
     {
         // Paginate questions
-        $questions = Question::with('answers')->paginate(10);
+        $questions = Question::with('answers')->get();
         
         // Retrieve session data for email, name, and answers
         $email = session('email');
@@ -49,7 +49,12 @@ class TestController extends Controller
         }
 
         // Redirect ke halaman hasil dengan menyertakan ID user
-        return redirect()->route('test.result', ['user' => $user->id]);
+        return redirect()->route('test.selesai', ['user' => $user->id]);
+    }
+
+    public function selesai( User $user) {
+        $user = User::with('userAnswers')->find($user->id);
+        return view('test.selesai', compact('user'));
     }
 
     public function result(User $user)

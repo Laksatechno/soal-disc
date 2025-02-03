@@ -40,9 +40,9 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    {{-- <div class="container mt-4"> --}}
         @yield('content') <!-- This will be where the content from other views gets injected -->
-    </div>
+    {{-- </div> --}}
 
     <!-- Footer Section -->
     <footer class="bg-light text-center py-4 mt-4">

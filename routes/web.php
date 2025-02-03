@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AuthController;
 Route::get('/', [TestController::class, 'index']);
 Route::post('/test', [TestController::class, 'store'])->name('test.store');
 Route::get('/test/result/{user}', [TestController::class, 'result'])->name('test.result');
+Route::get('/test/selesai/{user}', [TestController::class, 'selesai'])->name('test.selesai');
 
 // Route untuk login admin
 Route::prefix('admin')->group(function () {

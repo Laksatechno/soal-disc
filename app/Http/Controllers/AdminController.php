@@ -125,7 +125,7 @@ class AdminController extends Controller
         $userAnswers = UserAnswer::where('user_id', $id)
                                  ->with(['question', 'answer'])
                                  ->get();
-
+        // dd ($userAnswers);
         // Hitung total skor berdasarkan disc_type dari jawaban yang dipilih
         $totalScore = [
             'D' => 0,
@@ -138,7 +138,8 @@ class AdminController extends Controller
             $discType = $userAnswer->answer->disc_type;
             $totalScore[$discType]++;
         }
-    
+        
+        // dd($totalScore);
         // Jika tidak ada jawaban, kembalikan error
         if ($userAnswers->isEmpty()) {
             return redirect()->back()->with('error', 'Tidak ada jawaban yang ditemukan.');
